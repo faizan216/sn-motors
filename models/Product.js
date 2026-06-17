@@ -1,0 +1,82 @@
+import mongoose from "mongoose";
+
+const ProductSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Product name is required"],
+      trim: true,
+      maxlength: [200, "Name cannot exceed 200 characters"],
+    },
+    price: {
+      type: Number,
+      required: [true, "Price is required"],
+      min: [0, "Price must be non-negative"],
+    },
+    image: {
+      type: String,
+      required: [true, "Image URL is required"],
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+      maxlength: [2000, "Description cannot exceed 2000 characters"],
+    },
+    category: {
+      type: String,
+      required: [true, "Category is required"],
+      enum: [
+        "Engine Parts",
+        "Brakes",
+        "Suspension",
+        "Exhaust",
+        "Electrical",
+        "Body Parts",
+        "Transmission",
+        "Cooling System",
+        "Filters",
+        "Lighting",
+      ],
+    },
+    stock: {
+      type: Number,
+      required: [true, "Stock quantity is required"],
+      min: [0, "Stock cannot be negative"],
+      default: 0,
+    },
+    brand: {
+      type: String,
+      default: "OEM",
+    },
+    sku: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    rating: {
+      type: Number,
+      default: 4.0,
+      min: 0,
+      max: 5,
+    },
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// Index for search and filtering
+ProductSchema.index({ name: "text", description: "text" });
+ProductSchema.index({ category: 1 });
+ProductSchema.index({ price: 1 });
+
+export default mongoose.models.Product ||
+  mongoose.model("Product", ProductSchema);
