@@ -14,10 +14,10 @@ async function getFeaturedProducts() {
 }
 
 const TRUST_ITEMS = [
-  { icon: Truck,  label: "Free Delivery",   sub: "On orders above Rs. 5,000" },
-  { icon: Shield, label: "Genuine Parts",   sub: "OEM & quality aftermarket"  },
-  { icon: Clock,  label: "Fast Dispatch",   sub: "Ships within 24 hours"      },
-  { icon: Award,  label: "1-Year Warranty", sub: "On all major components"    },
+  { icon: Truck,  label: "Nationwide Delivery", sub: "Delivering all across Pakistan"     },
+  { icon: Shield, label: "Quality Guaranteed",  sub: "Premium modification parts only"   },
+  { icon: Clock,  label: "Fast Dispatch",        sub: "Ships within 24 hours"             },
+  { icon: Award,  label: "Expert Advice",        sub: "WhatsApp us for fitment queries"  },
 ];
 
 export default async function HomePage() {
@@ -33,21 +33,22 @@ export default async function HomePage() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-2 mb-4">
               <span className="h-px w-8 bg-brand-blue" />
-              <span className="text-brand-blue font-semibold text-sm uppercase tracking-widest">Pakistan&apos;s #1 Auto Parts Store</span>
+              <span className="text-brand-blue font-semibold text-sm uppercase tracking-widest">Pakistan&apos;s Car Modification Specialists</span>
             </div>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-extrabold text-white uppercase leading-none mb-6">
-              BUILT FOR<br />
-              <span className="text-brand-blue">PERFORMANCE</span>
+              MODIFY YOUR<br />
+              <span className="text-brand-blue">RIDE</span>
             </h1>
             <p className="text-zinc-300 text-lg mb-10 leading-relaxed">
-              OEM-grade and premium aftermarket parts for every make and model. From engine overhauls to brake upgrades — SN Motors stocks it all.
+              Headlights, bodykits, spoilers, PPF, carbon fiber, Android panels & more.
+              Premium car modification parts delivered across Pakistan.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/products" className="btn-primary text-base px-8 py-4">
                 Shop All Parts <ArrowRight size={18} />
               </Link>
-              <Link href="/products?category=Engine+Parts" className="border-2 border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-4 rounded-sm transition-all duration-200 inline-flex items-center gap-2">
-                Engine Parts
+              <Link href="/products?category=Bodykit" className="border-2 border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-4 rounded-sm transition-all duration-200 inline-flex items-center gap-2">
+                View Bodykits
               </Link>
             </div>
           </div>
@@ -114,10 +115,15 @@ export default async function HomePage() {
       <section className="bg-brand-blue py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="font-display text-3xl font-bold text-white uppercase tracking-wide">Can&apos;t find the part you need?</h2>
-            <p className="text-blue-200 mt-1">WhatsApp our team — we source any part within 48 hours.</p>
+            <h2 className="font-display text-3xl font-bold text-white uppercase tracking-wide">Need help choosing the right part?</h2>
+            <p className="text-blue-200 mt-1">WhatsApp us — we&apos;ll guide you to the perfect fit for your car.</p>
           </div>
-          <a href="https://wa.me/923288167552" target="_blank" rel="noopener noreferrer" className="shrink-0 bg-black text-white font-bold px-8 py-3 rounded-sm hover:bg-zinc-900 transition-colors inline-flex items-center gap-2 uppercase tracking-wide">
+          <a
+            href="https://wa.me/923281339780"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 bg-black text-white font-bold px-8 py-3 rounded-sm hover:bg-zinc-900 transition-colors inline-flex items-center gap-2 uppercase tracking-wide"
+          >
             Chat on WhatsApp
           </a>
         </div>

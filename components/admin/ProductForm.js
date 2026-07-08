@@ -4,8 +4,17 @@ import { useRouter } from "next/navigation";
 import { Save, Loader2 } from "lucide-react";
 
 const CATEGORIES = [
-  "Engine Parts","Brakes","Suspension","Exhaust",
-  "Electrical","Body Parts","Transmission","Cooling System","Filters","Lighting",
+  "Headlights",
+  "Tail Lights",
+  "Bodykit",
+  "Conversion",
+  "Grill",
+  "Spoilers",
+  "Carbon Fiber",
+  "Trims",
+  "Matts",
+  "PPF",
+  "Android Panel",
 ];
 
 const EMPTY = {
@@ -39,12 +48,13 @@ export default function ProductForm({ mode, product }) {
     setSuccess("");
 
     const payload = {
-      ...form,
-      price:       parseFloat(form.price),
-      stock:       parseInt(form.stock),
-      rating:      parseFloat(form.rating),
-      reviewCount: parseInt(form.reviewCount),
-    };
+  ...form,
+  price:       parseFloat(form.price),
+  stock:       parseInt(form.stock),
+  rating:      parseFloat(form.rating),
+  reviewCount: parseInt(form.reviewCount),
+  sku:         form.sku.trim() || undefined,
+};
 
     try {
       const url    = mode === "edit" ? `/api/products/${product._id}` : "/api/products";
