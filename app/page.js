@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArrowRight, Shield, Truck, Clock, Award, RefreshCcw, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import CategoryGrid from "@/components/product/CategoryGrid";
@@ -15,10 +16,10 @@ async function getFeaturedProducts() {
 }
 
 const TRUST_ITEMS = [
-  { icon: Truck,  label: "Nationwide Delivery", sub: "Delivering all across Pakistan"    },
-  { icon: Shield, label: "Quality Guaranteed",  sub: "Premium modification parts only"  },
-  { icon: Clock,  label: "Fast Dispatch",        sub: "Ships within 24 hours"            },
-  { icon: Award,  label: "Expert Advice",        sub: "WhatsApp us for fitment queries" },
+  { icon: Truck,  label: "Nationwide Delivery", sub: "Delivering all across Pakistan"   },
+  { icon: Shield, label: "Quality Guaranteed",  sub: "Premium modification parts only" },
+  { icon: Clock,  label: "Fast Dispatch",        sub: "Ships within 24 hours"           },
+  { icon: Award,  label: "Expert Advice",        sub: "WhatsApp us for fitment queries"},
 ];
 
 export default async function HomePage() {
@@ -76,7 +77,9 @@ export default async function HomePage() {
       {/* MAKE & MODEL FILTER */}
       <section className="bg-brand-smoke py-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <MakeModelFilter />
+          <Suspense fallback={<div className="h-32 bg-zinc-800 rounded-xl animate-pulse" />}>
+            <MakeModelFilter />
+          </Suspense>
         </div>
       </section>
 
@@ -134,7 +137,6 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {/* What's allowed */}
             <div className="border-2 border-green-100 rounded-xl p-6 bg-green-50">
               <div className="flex items-center gap-2 mb-4">
                 <CheckCircle size={22} className="text-green-600" />
@@ -157,7 +159,6 @@ export default async function HomePage() {
               </ul>
             </div>
 
-            {/* What's NOT allowed */}
             <div className="border-2 border-red-100 rounded-xl p-6 bg-red-50">
               <div className="flex items-center gap-2 mb-4">
                 <XCircle size={22} className="text-red-600" />
@@ -181,7 +182,6 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Important note */}
           <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-5 flex items-start gap-3">
             <AlertTriangle size={22} className="text-amber-600 shrink-0 mt-0.5" />
             <div>
@@ -204,12 +204,7 @@ export default async function HomePage() {
             <h2 className="font-display text-3xl font-bold text-white uppercase tracking-wide">Need help choosing the right part?</h2>
             <p className="text-blue-200 mt-1">WhatsApp us — we&apos;ll guide you to the perfect fit for your car.</p>
           </div>
-          <a
-            href="https://wa.me/923281339780"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 bg-black text-white font-bold px-8 py-3 rounded-sm hover:bg-zinc-900 transition-colors inline-flex items-center gap-2 uppercase tracking-wide"
-          >
+          <a href="https://wa.me/923281339780" target="_blank" rel="noopener noreferrer" className="shrink-0 bg-black text-white font-bold px-8 py-3 rounded-sm hover:bg-zinc-900 transition-colors inline-flex items-center gap-2 uppercase tracking-wide">
             Chat on WhatsApp
           </a>
         </div>
