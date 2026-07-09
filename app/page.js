@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Shield, Truck, Clock, Award } from "lucide-react";
+import { ArrowRight, Shield, Truck, Clock, Award, RefreshCcw, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import CategoryGrid from "@/components/product/CategoryGrid";
+import MakeModelFilter from "@/components/product/MakeModelFilter";
 
 async function getFeaturedProducts() {
   try {
@@ -14,10 +15,10 @@ async function getFeaturedProducts() {
 }
 
 const TRUST_ITEMS = [
-  { icon: Truck,  label: "Nationwide Delivery", sub: "Delivering all across Pakistan"     },
-  { icon: Shield, label: "Quality Guaranteed",  sub: "Premium modification parts only"   },
-  { icon: Clock,  label: "Fast Dispatch",        sub: "Ships within 24 hours"             },
-  { icon: Award,  label: "Expert Advice",        sub: "WhatsApp us for fitment queries"  },
+  { icon: Truck,  label: "Nationwide Delivery", sub: "Delivering all across Pakistan"    },
+  { icon: Shield, label: "Quality Guaranteed",  sub: "Premium modification parts only"  },
+  { icon: Clock,  label: "Fast Dispatch",        sub: "Ships within 24 hours"            },
+  { icon: Award,  label: "Expert Advice",        sub: "WhatsApp us for fitment queries" },
 ];
 
 export default async function HomePage() {
@@ -72,6 +73,13 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* MAKE & MODEL FILTER */}
+      <section className="bg-brand-smoke py-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <MakeModelFilter />
+        </div>
+      </section>
+
       {/* CATEGORIES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-end justify-between mb-8">
@@ -108,6 +116,84 @@ export default async function HomePage() {
               {featured.map((p) => <ProductCard key={p._id} product={p} />)}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* RETURN POLICY */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-50 rounded-full mb-4">
+              <RefreshCcw size={28} className="text-brand-blue" />
+            </div>
+            <p className="text-brand-blue font-semibold text-sm uppercase tracking-widest mb-1">Our Policy</p>
+            <h2 className="section-heading">Exchange & Return Policy</h2>
+            <p className="text-gray-500 mt-3 max-w-xl mx-auto">
+              We want you to be 100% satisfied with your purchase. Please read our exchange policy carefully.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {/* What's allowed */}
+            <div className="border-2 border-green-100 rounded-xl p-6 bg-green-50">
+              <div className="flex items-center gap-2 mb-4">
+                <CheckCircle size={22} className="text-green-600" />
+                <h3 className="font-display font-bold uppercase tracking-wide text-green-800">What&apos;s Allowed</h3>
+              </div>
+              <ul className="space-y-3 text-sm text-green-700">
+                {[
+                  "Exchange within 24 hours of delivery",
+                  "Item must be unused and in original packaging",
+                  "Exchange for same product or equal value item",
+                  "Defective or damaged items on arrival",
+                  "Wrong item delivered by us",
+                  "Contact us via WhatsApp with photos first",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-green-500 font-bold mt-0.5">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* What's NOT allowed */}
+            <div className="border-2 border-red-100 rounded-xl p-6 bg-red-50">
+              <div className="flex items-center gap-2 mb-4">
+                <XCircle size={22} className="text-red-600" />
+                <h3 className="font-display font-bold uppercase tracking-wide text-red-800">Not Applicable</h3>
+              </div>
+              <ul className="space-y-3 text-sm text-red-700">
+                {[
+                  "No cash/money refunds under any circumstances",
+                  "No exchange after 24 hours of delivery",
+                  "Installed or used items cannot be exchanged",
+                  "Items damaged by customer after delivery",
+                  "Custom-ordered or special import items",
+                  "Items without original packaging",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-red-500 font-bold mt-0.5">✗</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Important note */}
+          <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-5 flex items-start gap-3">
+            <AlertTriangle size={22} className="text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-amber-800 text-sm">Important Note</p>
+              <p className="text-amber-700 text-sm mt-1">
+                After <strong>24 hours of delivery</strong>, items are considered accepted and cannot be exchanged.
+                We offer <strong>exchange only — no money back</strong>. To initiate an exchange, WhatsApp us at{" "}
+                <a href="https://wa.me/923281339780" className="underline font-semibold">0328-133-9780</a>{" "}
+                with your order number and photos of the item within 24 hours of receiving your order.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

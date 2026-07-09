@@ -9,16 +9,28 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const category  = searchParams.get("category");
     const search    = searchParams.get("search");
+    const make      = searchParams.get("make");
+    const model     = searchParams.get("model");
     const sort      = searchParams.get("sort") || "createdAt";
     const order     = searchParams.get("order") === "asc" ? 1 : -1;
     const page      = parseInt(searchParams.get("page") || "1");
     const limit     = parseInt(searchParams.get("limit") || "12");
     const featured  = searchParams.get("featured");
+    const inStock   = searchParams.get("inStock");
 
     const filter = {};
     if (category && category !== "All") filter.category = category;
     if (featured === "true") filter.featured = true;
-    if (search) filter.$text = { $search: search };
+    if (inStock === "true") filter.stock = { $gt: 0 };
+
+    // Build search query - supports name, description, make and model
+    if (search || make || model) {
+      const searchTerms = [];
+      if (search) searchTerms.push(search);
+      if (make)   searchTerms.push(make);
+      if (model)  searchTerms.push(model);
+      filter.$text = { $search: searchTerms.join(" ") };
+    }
 
     const skip = (page - 1) * limit;
 
@@ -54,7 +66,6 @@ export async function POST(request) {
   try {
     await dbConnect();
     const body = await request.json();
-
     const product = await Product.create(body);
     return NextResponse.json(
       { success: true, data: product },
