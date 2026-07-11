@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Package, Tag, BarChart3, ShoppingBag, LogOut } from "lucide-react";
 import AdminProductTable from "@/components/admin/AdminProductTable";
 import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
+import AdminSettingsLink from "@/components/admin/AdminSettingsLink";
 
 async function getProducts() {
   try {
@@ -52,6 +53,7 @@ export default async function AdminPage() {
             )}
           </Link>
           <Link href="/admin/add" className="btn-primary"><Plus size={18} /> Add Product</Link>
+          <AdminSettingsLink />
           <AdminLogoutButton />
         </div>
       </div>
