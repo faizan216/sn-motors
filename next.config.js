@@ -6,7 +6,11 @@ const nextConfig = {
       { protocol: "https", hostname: "plus.unsplash.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "**.githubusercontent.com" },
+      { protocol: "https", hostname: "i.ibb.co" },
+      { protocol: "https", hostname: "**.ibb.co" },
     ],
+    dangerouslyAllowSVG: true,
+    unoptimized: true,
   },
   experimental: {
     serverComponentsExternalPackages: ["mongoose"],
