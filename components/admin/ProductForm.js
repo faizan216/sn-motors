@@ -42,8 +42,8 @@ const EMPTY = {
 };
 
 export default function ProductForm({ mode, product }) {
-  const router   = useRouter();
-  const fileRef  = useRef(null);
+  const router  = useRouter();
+  const fileRef = useRef(null);
 
   const [form, setForm] = useState(product ? {
     ...product,
@@ -55,12 +55,12 @@ export default function ProductForm({ mode, product }) {
     model:       product.model || "",
   } : EMPTY);
 
-  const [loading,        setLoading]        = useState(false);
-  const [uploadLoading,  setUploadLoading]  = useState(false);
-  const [error,          setError]          = useState("");
-  const [success,        setSuccess]        = useState("");
-  const [imagePreview,   setImagePreview]   = useState(product?.image || "");
-  const [uploadMethod,   setUploadMethod]   = useState("upload"); // "upload" or "url"
+  const [loading,       setLoading]       = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [error,         setError]         = useState("");
+  const [success,       setSuccess]       = useState("");
+  const [imagePreview,  setImagePreview]  = useState(product?.image || "");
+  const [uploadMethod,  setUploadMethod]  = useState("upload");
 
   const models = form.make ? CAR_DATA[form.make] || [] : [];
 
@@ -73,12 +73,10 @@ export default function ProductForm({ mode, product }) {
     }
   };
 
-  // Handle image upload from gallery
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Show preview immediately
     const reader = new FileReader();
     reader.onload = (ev) => setImagePreview(ev.target.result);
     reader.readAsDataURL(file);
@@ -224,26 +222,25 @@ export default function ProductForm({ mode, product }) {
             </div>
           </div>
         </div>
-        <p className="text-xs text-blue-500">Select "Universal" if this part fits all cars</p>
+        <p className="text-xs text-blue-500">Select &quot;Universal&quot; if this part fits all cars</p>
       </div>
 
       {/* Image Upload */}
       <div>
         <label className="block text-sm font-semibold text-brand-dark mb-2">Product Image <span className="text-red-500">*</span></label>
 
-        {/* Toggle upload method */}
         <div className="flex gap-2 mb-3">
           <button
             type="button"
             onClick={() => setUploadMethod("upload")}
-            className={`text-xs px-3 py-1.5 rounded-sm font-semibold transition-colors ${uploadMethod === "upload" ? "bg-brand-blue text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+            className={`text-xs px-3 py-1.5 rounded-sm font-semibold transition-colors ${uploadMethod === 'upload' ? 'bg-brand-blue text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
           >
             📁 Upload from Device
           </button>
           <button
             type="button"
             onClick={() => setUploadMethod("url")}
-            className={`text-xs px-3 py-1.5 rounded-sm font-semibold transition-colors ${uploadMethod === "url" ? "bg-brand-blue text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+            className={`text-xs px-3 py-1.5 rounded-sm font-semibold transition-colors ${uploadMethod === 'url' ? 'bg-brand-blue text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
           >
             🔗 Use Image URL
           </button>
@@ -282,9 +279,9 @@ export default function ProductForm({ mode, product }) {
           />
         )}
 
-        {/* Image preview */}
         {imagePreview && (
           <div className="mt-3 relative inline-block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imagePreview}
               alt="Preview"
