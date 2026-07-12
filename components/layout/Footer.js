@@ -96,7 +96,7 @@ export default function Footer() {
               </div>
               <div className="text-xs bg-zinc-800 text-zinc-300 px-3 py-2 rounded-sm leading-relaxed">
                 🏦 <strong className="text-white">UBL Bank</strong><br />
-                Shehroz / Sahrooz<br />
+                Sahrooz<br />
                 AC: 0516381418409<br />
                 IBAN: PK84UNIL0109000381418409
               </div>
