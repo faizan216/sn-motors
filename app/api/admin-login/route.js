@@ -3,54 +3,34 @@ import dbConnect from "@/lib/dbConnect";
 import AdminSettings from "@/models/AdminSettings";
 import crypto from "crypto";
 
-function hashPassword(password) {
-  return crypto.createHash("sha256").update(password).digest("hex");
+function hashPassword(p) {
+  return crypto.createHash("sha256").update(p).digest("hex");
 }
 
 export async function POST(request) {
   try {
-    const { password } = await request.json();
-
-    await dbConnect();
-
-    // Check MongoDB first for custom password
-    const storedSetting = await AdminSettings.findOne({ key: "admin_password" });
-
-    let isValid = false;
-
-    if (storedSetting) {
-      // Compare with hashed password stored in MongoDB
-      isValid = storedSetting.value === hashPassword(password);
-    } else {
-      // Fallback to env variable (first time / not yet changed)
-      isValid = password === process.env.ADMIN_SECRET;
+    const { username, password } = await request.json();
+    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    if (username !== adminUsername) {
+      return NextResponse.json({ success: false }, { status: 401 });
     }
-
+    await dbConnect();
+    const stored = await AdminSettings.findOne({ key: "admin_password" });
+    const isValid = stored
+      ? stored.value === hashPassword(password)
+      : password === process.env.ADMIN_SECRET;
     if (isValid) {
-      const response = NextResponse.json({ success: true });
-      response.cookies.set("admin_token", password, {
+      const res = NextResponse.json({ success: true });
+      res.cookies.set("admin_token", password, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
-      return response;
+      return res;
     }
-
     return NextResponse.json({ success: false }, { status: 401 });
   } catch (error) {
-    // Fallback to env if DB fails
-    const { password } = await request.json().catch(() => ({ password: "" }));
-    if (password === process.env.ADMIN_SECRET) {
-      const response = NextResponse.json({ success: true });
-      response.cookies.set("admin_token", password, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 24 * 7,
-        path: "/",
-      });
-      return response;
-    }
-    return NextResponse.json({ success: false }, { status: 401 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
