@@ -8,6 +8,9 @@ export default function ProductCard({ product }) {
   const addItem = useCartStore((s) => s.addItem);
   const inStock = product.stock > 0;
   const stars   = Math.round(product.rating ?? 4);
+  const salePrice = product.discount > 0
+    ? Math.round(product.price * (1 - product.discount / 100))
+    : null;
 
   return (
     <article className="card group flex flex-col overflow-hidden animate-slide-up">
@@ -21,15 +24,27 @@ export default function ProductCard({ product }) {
         {product.featured && (
           <span className="absolute top-2 left-2 badge bg-brand-blue text-white text-[10px]">Featured</span>
         )}
+        {product.discount > 0 && (
+          <span className="absolute top-2 right-2 badge bg-green-500 text-white text-[10px]">-{product.discount}%</span>
+        )}
         <Link href={`/products/${product._id}`} className="absolute bottom-2 right-2 bg-white/90 hover:bg-white text-brand-dark p-2 rounded-sm shadow opacity-0 group-hover:opacity-100 transition-all duration-200 hover:text-brand-blue">
           <Eye size={15} />
         </Link>
       </div>
+
       <div className="flex flex-col flex-1 p-4">
         <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">{product.category}</span>
         <Link href={`/products/${product._id}`}>
           <h3 className="font-semibold text-brand-dark hover:text-brand-blue transition-colors text-sm leading-snug line-clamp-2 mb-2">{product.name}</h3>
         </Link>
+
+        {/* Make + Model */}
+        {product.make && (
+          <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-wide">
+            {product.make}{product.model ? ` — ${product.model}` : ""}
+          </p>
+        )}
+
         <div className="flex items-center gap-1 mb-3">
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -38,8 +53,24 @@ export default function ProductCard({ product }) {
           </div>
           <span className="text-[11px] text-gray-400">({product.reviewCount ?? 0})</span>
         </div>
+
         <div className="mt-auto flex items-center justify-between gap-2">
-          <span className="font-display text-xl font-bold text-brand-blue">Rs. {product.price.toLocaleString()}</span>
+          <div>
+            {salePrice ? (
+              <>
+                <span className="font-display text-xl font-bold text-brand-blue">
+                  Rs. {salePrice.toLocaleString()}
+                </span>
+                <span className="text-xs text-gray-400 line-through ml-2">
+                  Rs. {product.price.toLocaleString()}
+                </span>
+              </>
+            ) : (
+              <span className="font-display text-xl font-bold text-brand-blue">
+                Rs. {product.price.toLocaleString()}
+              </span>
+            )}
+          </div>
           <button
             onClick={() => inStock && addItem(product)}
             disabled={!inStock}
