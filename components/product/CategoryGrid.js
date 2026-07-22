@@ -48,9 +48,9 @@ export default function CategoryGrid() {
             href={`/products?category=${encodeURIComponent(cat.name)}`}
             className={`group flex-shrink-0 flex flex-col items-center justify-center text-center p-5 border-2 rounded-xl w-40 min-h-[100px] transition-all duration-200 hover:shadow-lg ${cat.color}`}
           >
-            <span className="font-display font-extrabold uppercase text-base text-brand-dark group-hover:text-brand-blue transition-colors tracking-wide leading-tight">
-              {cat.name}
-            </span>
+            <span className="font-display font-black uppercase text-sm text-brand-dark group-hover:text-brand-blue transition-colors tracking-widest leading-tight">
+  {cat.name}
+</span>
             <span className="text-xs text-gray-400 mt-1.5 leading-snug">
               {cat.desc}
             </span>
