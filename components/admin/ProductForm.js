@@ -5,7 +5,7 @@ import { Save, Loader2, Upload, X, ChevronDown } from "lucide-react";
 
 const CATEGORIES = [
   "Headlights","Tail Lights","Bodykit","Conversion","Grill",
-  "Spoilers","Carbon Fiber","Trims","Matts","PPF","Android Panel",
+  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
 ];
 
 const CAR_DATA = {

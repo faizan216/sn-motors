@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema(
     description: { type: String, required: true },
     category: {
       type: String, required: true,
-      enum: ["Headlights","Tail Lights","Bodykit","Conversion","Grill","Spoilers","Carbon Fiber","Trims","Matts","PPF","Android Panel"],
+      enum: ["Headlights","Tail Lights","Bodykit","Conversion","Grill","Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel"],
     },
     make:        { type: String, default: "" },
     model:       { type: String, default: "" },

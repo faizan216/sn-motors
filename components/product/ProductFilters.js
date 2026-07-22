@@ -4,17 +4,8 @@ import { useState } from "react";
 import { Search, X } from "lucide-react";
 
 const CATEGORIES = [
-  "Headlights",
-  "Tail Lights",
-  "Bodykit",
-  "Conversion",
-  "Grill",
-  "Spoilers",
-  "Carbon Fiber",
-  "Trims",
-  "Matts",
-  "PPF",
-  "Android Panel",
+  "Headlights","Tail Lights","Bodykit","Conversion","Grill",
+  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
 ];
 
 export default function ProductFilters({ active }) {
