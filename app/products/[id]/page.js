@@ -113,14 +113,22 @@ export default async function ProductDetailPage({ params }) {
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-6">
-            <span className="font-display text-4xl font-extrabold text-brand-red">
-              Rs. {product.price.toLocaleString()}
-            </span>
-            <span className="text-gray-400 text-sm line-through">
-              Rs. {Math.round(product.price * 1.15).toLocaleString()}
-            </span>
-            <span className="badge bg-green-100 text-green-700">Save 13%</span>
-          </div>
+  {product.discount > 0 ? (
+    <>
+      <span className="font-display text-4xl font-extrabold text-brand-blue">
+        Rs. {Math.round(product.price * (1 - product.discount / 100)).toLocaleString()}
+      </span>
+      <span className="text-gray-400 text-sm line-through">
+        Rs. {product.price.toLocaleString()}
+      </span>
+      <span className="badge bg-green-100 text-green-700">Save {product.discount}%</span>
+    </>
+  ) : (
+    <span className="font-display text-4xl font-extrabold text-brand-blue">
+      Rs. {product.price.toLocaleString()}
+    </span>
+  )}
+</div>
 
           {/* Brand */}
           {product.brand && (
@@ -147,13 +155,13 @@ export default async function ProductDetailPage({ params }) {
 
           {/* Key features */}
           <ul className="space-y-2 mb-8">
-            {["OEM quality guaranteed", "Compatible with multiple models", "Easy installation", "1-year warranty included"].map((f) => (
-              <li key={f} className="flex items-center gap-2 text-sm text-gray-600">
-                <CheckCircle size={14} className="text-green-500 shrink-0" />
-                {f}
-              </li>
-            ))}
-          </ul>
+  {["Compatible with multiple models", "Easy installation", "Fast dispatch within 24 hours", "Nationwide delivery across Pakistan"].map((f) => (
+    <li key={f} className="flex items-center gap-2 text-sm text-gray-600">
+      <CheckCircle size={14} className="text-green-500 shrink-0" />
+      {f}
+    </li>
+  ))}
+</ul>
 
           {/* CTA */}
           <div className="flex gap-3 flex-wrap">
