@@ -5,8 +5,8 @@ import { ShoppingCart, Menu, X, Search, Phone, ChevronDown } from "lucide-react"
 import useCartStore from "@/lib/cartStore";
 
 const CATEGORIES = [
-  "Headlights", "Tail Lights", "Bodykit", "Conversion", "Grill",
-  "Spoilers", "Carbon Fiber", "Trims", "Matts", "PPF", "Android Panel",
+  "Headlights","Tail Lights","Bodykit","Conversion","Grill",
+  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
 ];
 
 export default function Navbar() {
