@@ -37,7 +37,7 @@ export default function ProductForm({ mode, product }) {
   const [error,         setError]         = useState("");
   const [success,       setSuccess]       = useState("");
 
-  const models   = form.make ? CAR_DATA[form.make] || [] : [];
+  const models    = form.make ? CAR_DATA[form.make] || [] : [];
   const salePrice = form.price && parseFloat(form.discount) > 0
     ? Math.round(parseFloat(form.price) * (1 - parseFloat(form.discount) / 100))
     : null;
@@ -106,7 +106,12 @@ export default function ProductForm({ mode, product }) {
       const json   = await res.json();
       if (!res.ok) throw new Error(json.error || "Something went wrong");
       setSuccess(mode === "edit" ? "Product updated!" : "Product added!");
-      if (mode === "add") { setForm(EMPTY); setTimeout(() => router.push("/admin"), 1500); }
+      if (mode === "add") {
+        setForm(EMPTY);
+        setTimeout(() => router.push("/admin"), 1500);
+      } else {
+        setTimeout(() => { router.refresh(); router.push("/admin"); }, 1000);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
