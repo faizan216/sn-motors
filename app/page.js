@@ -42,7 +42,7 @@ export default async function HomePage() {
               <span className="text-brand-blue">RIDE</span>
             </h1>
             <p className="text-zinc-300 text-lg mb-10 leading-relaxed">
-              Headlights, bodykits, spoilers, PPF, carbon fiber, Android panels & more.
+              Headlights, Bodykits, Spoilers, PPF, Carbon fiber, Android panels & more.
               Premium car modification parts delivered across Pakistan.
             </p>
             <div className="flex flex-wrap gap-4">
