@@ -52,16 +52,18 @@ export default async function ProductDetailPage({ params }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Image */}
         <div className="relative">
-          <div className="aspect-square bg-brand-smoke rounded-sm overflow-hidden border border-gray-100">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
-            />
-          </div>
+          <div className="w-full rounded-sm overflow-hidden border border-gray-100 bg-brand-smoke">
+  <div className="relative w-full" style={{ paddingBottom: "100%" }}>
+    <Image
+      src={product.image}
+      alt={product.name}
+      fill
+      className="object-contain absolute inset-0"
+      sizes="(max-width: 1024px) 100vw, 50vw"
+      priority
+    />
+  </div>
+</div>
           {product.featured && (
             <span className="absolute top-4 left-4 badge bg-brand-red text-white">
               Featured
