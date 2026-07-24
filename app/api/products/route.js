@@ -32,8 +32,8 @@ export async function GET(request) {
   ];
 }
 
-if (make)  filter.make  = { $regex: make,  $options: "i" };
-if (model) filter.model = { $regex: model, $options: "i" };
+if (make)  filter.make  = make;
+if (model) filter.model = model;
 
     const skip = (page - 1) * limit;
 

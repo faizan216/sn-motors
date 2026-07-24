@@ -18,6 +18,8 @@ async function getProducts(searchParams) {
     if (searchParams?.sort)      params.set("sort",     searchParams.sort);
     if (searchParams?.order)     params.set("order",    searchParams.order);
     if (searchParams?.page)      params.set("page",     searchParams.page);
+    if (searchParams?.make)   params.set("make",  searchParams.make);
+    if (searchParams?.model)  params.set("model", searchParams.model);
     params.set("limit", "12");
 
     const res = await fetch(`${baseUrl}/api/products?${params.toString()}`, {
