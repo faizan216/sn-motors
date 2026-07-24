@@ -24,13 +24,16 @@ export async function GET(request) {
     if (inStock === "true") filter.stock = { $gt: 0 };
 
     // Build search query - supports name, description, make and model
-    if (search || make || model) {
-      const searchTerms = [];
-      if (search) searchTerms.push(search);
-      if (make)   searchTerms.push(make);
-      if (model)  searchTerms.push(model);
-      filter.$text = { $search: searchTerms.join(" ") };
-    }
+    if (search) {
+  filter.$or = [
+    { name:        { $regex: search, $options: "i" } },
+    { description: { $regex: search, $options: "i" } },
+    { brand:       { $regex: search, $options: "i" } },
+  ];
+}
+
+if (make)  filter.make  = { $regex: make,  $options: "i" };
+if (model) filter.model = { $regex: model, $options: "i" };
 
     const skip = (page - 1) * limit;
 
