@@ -16,26 +16,33 @@ const EMPTY = {
   make: "", model: "",
 };
 
+const toFormState = (p) => ({
+  name:        p.name        ?? "",
+  price:       String(p.price ?? ""),
+  discount:    String(p.discount ?? 0),
+  stock:       String(p.stock ?? ""),
+  category:    p.category    ?? "Headlights",
+  brand:       p.brand       ?? "",
+  description: p.description ?? "",
+  sku:         p.sku         ?? "",
+  rating:      String(p.rating ?? 4.5),
+  reviewCount: String(p.reviewCount ?? 0),
+  featured:    p.featured    ?? false,
+  make:        p.make        ?? "",
+  model:       p.model       ?? "",
+  images:      Array.isArray(p.images) ? p.images : [],
+  image:       p.image       ?? "",
+});
+
 export default function ProductForm({ mode, product }) {
   const router  = useRouter();
   const fileRef = useRef(null);
 
-  const [form, setForm] = useState(product ? {
-    ...product,
-    price:       String(product.price),
-    discount:    String(product.discount ?? 0),
-    stock:       String(product.stock),
-    rating:      String(product.rating ?? 4.5),
-    reviewCount: String(product.reviewCount ?? 0),
-    make:        product.make  || "",
-    model:       product.model || "",
-    images:      product.images || [],
-  } : EMPTY);
-
-  const [loading,       setLoading]       = useState(false);
+  const [form, setForm]         = useState(product ? toFormState(product) : EMPTY);
+  const [loading, setLoading]   = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [error,         setError]         = useState("");
-  const [success,       setSuccess]       = useState("");
+  const [error,   setError]     = useState("");
+  const [success, setSuccess]   = useState("");
 
   const models    = form.make ? CAR_DATA[form.make] || [] : [];
   const salePrice = form.price && parseFloat(form.discount) > 0
@@ -89,22 +96,35 @@ export default function ProductForm({ mode, product }) {
     setLoading(true);
     setError("");
     setSuccess("");
-    const payload = {
-      ...form,
-      price:       parseFloat(form.price),
-      discount:    parseFloat(form.discount) || 0,
-      stock:       parseInt(form.stock),
-      rating:      parseFloat(form.rating),
-      reviewCount: parseInt(form.reviewCount),
-      sku:         form.sku.trim() || undefined,
-      images:      form.images || [],
-    };
     try {
+      const payload = {
+        name:        form.name,
+        price:       parseFloat(form.price),
+        discount:    parseFloat(form.discount) || 0,
+        stock:       parseInt(form.stock),
+        category:    form.category,
+        brand:       form.brand,
+        description: form.description,
+        rating:      parseFloat(form.rating),
+        reviewCount: parseInt(form.reviewCount),
+        featured:    form.featured,
+        make:        form.make,
+        model:       form.model,
+        image:       form.image,
+        images:      form.images || [],
+        sku:         form.sku.trim() || undefined,
+      };
+
       const url    = mode === "edit" ? `/api/products/${product._id}` : "/api/products";
       const method = mode === "edit" ? "PUT" : "POST";
-      const res    = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      const json   = await res.json();
+      const res    = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Something went wrong");
+
       setSuccess(mode === "edit" ? "Product updated!" : "Product added!");
       if (mode === "add") {
         setForm(EMPTY);
@@ -142,7 +162,7 @@ export default function ProductForm({ mode, product }) {
           </label>
           <input name="discount" type="number" min="0" max="100" step="1" value={form.discount} onChange={handleChange} placeholder="0" className="input-field" />
           {salePrice && (
-            <p className="text-xs text-green-600 mt-1">Sale price: Rs. {salePrice.toLocaleString()}</p>
+            <p className="text-xs text-green-600 mt-1">Sale: Rs. {salePrice.toLocaleString()}</p>
           )}
         </div>
         <div>
@@ -199,7 +219,6 @@ export default function ProductForm({ mode, product }) {
           Product Images <span className="text-red-500">*</span>
           <span className="text-xs text-gray-400 font-normal ml-2">(click image to set as primary)</span>
         </label>
-
         <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" id="image-upload" />
         <label htmlFor="image-upload" className={`flex flex-col items-center justify-center border-2 border-dashed rounded-sm p-6 cursor-pointer transition-colors ${uploadLoading ? "border-brand-blue bg-blue-50" : "border-gray-200 hover:border-brand-blue hover:bg-blue-50"}`}>
           {uploadLoading
@@ -207,7 +226,6 @@ export default function ProductForm({ mode, product }) {
             : <><Upload size={24} className="text-gray-400 mb-2" /><span className="text-sm font-semibold text-gray-600">Click to upload images</span><span className="text-xs text-gray-400 mt-1">Select multiple — JPG, PNG, WEBP up to 5MB each</span></>
           }
         </label>
-
         {form.images && form.images.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-3">
             {form.images.map((url, idx) => (
@@ -232,7 +250,7 @@ export default function ProductForm({ mode, product }) {
       {/* Description */}
       <div>
         <label className="block text-sm font-semibold text-brand-dark mb-1.5">Description <span className="text-red-500">*</span></label>
-        <textarea name="description" value={form.description} onChange={handleChange} required rows={4} placeholder="Describe the product, compatibility, specs..." className="input-field resize-none" />
+        <textarea name="description" value={form.description} onChange={handleChange} required rows={4} placeholder="Describe the product..." className="input-field resize-none" />
       </div>
 
       {/* SKU + Rating + Reviews */}
