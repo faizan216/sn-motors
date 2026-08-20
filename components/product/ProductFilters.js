@@ -3,17 +3,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 
-const [categories, setCategories] = useState([]);
+
+export default function ProductFilters({ active }) {
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const [categories, setCategories] = useState([]);
 
 useEffect(() => {
   fetch("/api/categories")
     .then((r) => r.json())
     .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
 }, []);
-
-export default function ProductFilters({ active }) {
-  const router       = useRouter();
-  const searchParams = useSearchParams();
   const [nameQuery, setNameQuery] = useState(active?.search || "");
 
   const setParam = (key, value) => {

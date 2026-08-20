@@ -1,16 +1,8 @@
 "use client";
-import { useState, useRef } from "react";
-import { useRouter, useEffect } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Save, Loader2, Upload, X, ChevronDown, Plus, Tag } from "lucide-react";
 import { CAR_DATA, MAKES } from "@/lib/carData";
-
-const [categories, setCategories] = useState([]);
-
-useEffect(() => {
-  fetch("/api/categories")
-    .then((r) => r.json())
-    .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
-}, []);
 
 const EMPTY = {
   name: "", price: "", discount: "0", image: "", images: [],
@@ -40,6 +32,13 @@ const toFormState = (p) => ({
 export default function ProductForm({ mode, product }) {
   const router  = useRouter();
   const fileRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  fetch("/api/categories")
+    .then((r) => r.json())
+    .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
+}, []);
 
   const [form, setForm]         = useState(product ? toFormState(product) : EMPTY);
   const [loading, setLoading]   = useState(false);

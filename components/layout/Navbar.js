@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { ShoppingCart, Menu, X, Search, Phone, ChevronDown } from "lucide-react";
 import useCartStore from "@/lib/cartStore";
 
+
+
+export default function Navbar() {
+  const [mobileOpen,  setMobileOpen]  = useState(false);
 const [categories, setCategories] = useState([]);
 
 useEffect(() => {
@@ -11,9 +15,6 @@ useEffect(() => {
     .then((r) => r.json())
     .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
 }, []);
-
-export default function Navbar() {
-  const [mobileOpen,  setMobileOpen]  = useState(false);
   const [searchOpen,  setSearchOpen]  = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [catOpen,     setCatOpen]     = useState(false);
