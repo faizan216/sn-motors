@@ -9,9 +9,9 @@ const ProductSchema = new mongoose.Schema(
     images: { type: [String], default: [] },
     description: { type: String, required: true },
     category: {
-      type: String, required: true,
-      enum: ["Headlights","Tail Lights","Bodykit","Conversion","Grill","Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel"],
-    },
+  type: String,
+  required: true,
+},
     make:        { type: String, default: "" },
     model:       { type: String, default: "" },
     stock:       { type: Number, required: true, min: 0, default: 0 },
