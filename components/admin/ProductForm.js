@@ -1,13 +1,16 @@
 "use client";
 import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useEffect } from "next/navigation";
 import { Save, Loader2, Upload, X, ChevronDown, Plus, Tag } from "lucide-react";
 import { CAR_DATA, MAKES } from "@/lib/carData";
 
-const CATEGORIES = [
-  "Headlights","Tail Lights","Bodykit","Conversion","Grill",
-  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
-];
+const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  fetch("/api/categories")
+    .then((r) => r.json())
+    .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
+}, []);
 
 const EMPTY = {
   name: "", price: "", discount: "0", image: "", images: [],
@@ -176,7 +179,7 @@ export default function ProductForm({ mode, product }) {
         <div>
           <label className="block text-sm font-semibold text-brand-dark mb-1.5">Category <span className="text-red-500">*</span></label>
           <select name="category" value={form.category} onChange={handleChange} required className="input-field">
-            {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {categories.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>

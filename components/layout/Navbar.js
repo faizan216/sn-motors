@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { ShoppingCart, Menu, X, Search, Phone, ChevronDown } from "lucide-react";
 import useCartStore from "@/lib/cartStore";
 
-const CATEGORIES = [
-  "Headlights","Tail Lights","Bodykit","Conversion","Grill",
-  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
-];
+const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  fetch("/api/categories")
+    .then((r) => r.json())
+    .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
+}, []);
 
 export default function Navbar() {
   const [mobileOpen,  setMobileOpen]  = useState(false);
@@ -73,7 +76,7 @@ export default function Navbar() {
                 </button>
                 {catOpen && (
                   <div className="absolute top-full left-0 mt-0 bg-white border border-gray-100 shadow-lg rounded-sm w-56 py-2 z-50">
-                    {CATEGORIES.map((cat) => (
+                    {categories.map((cat) => (
                       <Link
                         key={cat}
                         href={`/products?category=${encodeURIComponent(cat)}`}
@@ -147,7 +150,7 @@ export default function Navbar() {
             <Link href="/" className="block px-4 py-3 text-sm font-medium hover:bg-blue-50 hover:text-brand-blue transition-colors" onClick={() => setMobileOpen(false)}>Home</Link>
             <Link href="/products" className="block px-4 py-3 text-sm font-medium hover:bg-blue-50 hover:text-brand-blue transition-colors" onClick={() => setMobileOpen(false)}>All Parts</Link>
             <div className="px-4 py-2 text-xs text-gray-400 uppercase tracking-widest font-semibold">Categories</div>
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <Link key={cat} href={`/products?category=${encodeURIComponent(cat)}`} className="block px-6 py-2 text-sm text-gray-600 hover:bg-blue-50 hover:text-brand-blue transition-colors" onClick={() => setMobileOpen(false)}>
                 {cat}
               </Link>

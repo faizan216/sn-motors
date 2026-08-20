@@ -1,12 +1,15 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 
-const CATEGORIES = [
-  "Headlights","Tail Lights","Bodykit","Conversion","Grill",
-  "Spoilers","Carbon Fiber Trims","Interior","Matts","PPF","Android Panel",
-];
+const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  fetch("/api/categories")
+    .then((r) => r.json())
+    .then((j) => { if (j.success) setCategories(j.data.map(c => c.name)); });
+}, []);
 
 export default function ProductFilters({ active }) {
   const router       = useRouter();
@@ -106,7 +109,7 @@ export default function ProductFilters({ active }) {
               All Categories
             </button>
           </li>
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <li key={cat}>
               <button
                 onClick={() => setParam("category", cat)}

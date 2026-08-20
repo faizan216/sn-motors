@@ -85,6 +85,15 @@ export default async function AdminPage() {
             <p className="text-xs text-gray-400">Add to your catalogue</p>
           </div>
         </Link>
+        <Link href="/admin/categories" className="admin-card flex items-center gap-3 hover:border-brand-blue border border-transparent transition-colors group">
+  <div className="w-10 h-10 bg-purple-50 rounded-sm flex items-center justify-center group-hover:bg-purple-500 transition-colors">
+    <Tag size={20} className="text-purple-500 group-hover:text-white" />
+  </div>
+  <div>
+    <p className="font-semibold text-brand-dark text-sm">Manage Categories</p>
+    <p className="text-xs text-gray-400">Add or remove categories</p>
+  </div>
+</Link>
         <Link href="/admin/orders" className="admin-card flex items-center gap-3 hover:border-brand-blue border border-transparent transition-colors group">
           <div className="w-10 h-10 bg-yellow-50 rounded-sm flex items-center justify-center group-hover:bg-yellow-400 transition-colors">
             <ShoppingBag size={20} className="text-yellow-500 group-hover:text-white" />
