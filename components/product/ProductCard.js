@@ -15,7 +15,24 @@ export default function ProductCard({ product }) {
   return (
     <article className="card group flex flex-col overflow-hidden animate-slide-up">
       <div className="relative aspect-square bg-brand-smoke overflow-hidden">
-        <Image src={product.image} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+        <Image
+  src={product.image}
+  alt={product.name}
+  fill
+  className={`object-cover transition-all duration-500 ${
+    product.images?.length > 1 ? "group-hover:opacity-0" : "group-hover:scale-105"
+  }`}
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+/>
+{product.images?.length > 1 && (
+  <Image
+    src={product.images[1]}
+    alt={`${product.name} - 2`}
+    fill
+    className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+  />
+)}
         {!inStock && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
             <span className="badge bg-zinc-800 text-white text-xs">Out of Stock</span>
