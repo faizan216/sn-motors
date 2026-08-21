@@ -142,7 +142,7 @@ export default async function ProductDetailPage({ params }) {
           {/* Description */}
           <div className="border-t border-gray-100 pt-6 mb-8">
             <h2 className="font-semibold text-brand-steel mb-2 uppercase text-sm tracking-wide">Description</h2>
-            <p className="text-gray-600 leading-relaxed text-sm">{product.description}</p>
+            <p className="text-gray-600 leading-relaxed text-sm whitespace-pre-line">{product.description}</p>
           </div>
 
           {/* Key features */}
