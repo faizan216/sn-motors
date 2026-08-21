@@ -1,3 +1,4 @@
+import ProductImageGallery from "@/components/product/ProductImageGallery";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -52,18 +53,7 @@ export default async function ProductDetailPage({ params }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Image */}
         <div className="relative">
-          <div className="w-full rounded-sm overflow-hidden border border-gray-100 bg-brand-smoke">
-  <div className="relative w-full" style={{ paddingBottom: "100%" }}>
-    <Image
-      src={product.image}
-      alt={product.name}
-      fill
-      className="object-contain absolute inset-0"
-      sizes="(max-width: 1024px) 100vw, 50vw"
-      priority
-    />
-  </div>
-</div>
+          <ProductImageGallery images={product.images?.length > 0 ? product.images : [product.image]} name={product.name} />
           {product.featured && (
             <span className="absolute top-4 left-4 badge bg-brand-red text-white">
               Featured
