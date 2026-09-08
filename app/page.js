@@ -7,7 +7,7 @@ import MakeModelFilter from "@/components/product/MakeModelFilter";
 
 async function getFeaturedProducts() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/products?featured=true&limit=8`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();

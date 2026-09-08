@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 
 async function getOrders() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/orders?limit=50`, { cache: "no-store" });
     if (!res.ok) return { data: [], pagination: { total: 0 } };
     return res.json();

@@ -6,7 +6,7 @@ import AdminSettingsLink from "@/components/admin/AdminSettingsLink";
 
 async function getProducts() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/products?limit=100`, { cache: "no-store" });
     if (!res.ok) return { data: [], pagination: { total: 0 } };
     return res.json();
@@ -15,7 +15,7 @@ async function getProducts() {
 
 async function getOrderStats() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/orders?limit=100`, { cache: "no-store" });
     if (!res.ok) return { data: [] };
     return res.json();
