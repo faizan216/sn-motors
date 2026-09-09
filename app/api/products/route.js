@@ -39,10 +39,11 @@ if (model) filter.model = { $regex: model, $options: "i" };
 
     const [products, total] = await Promise.all([
       Product.find(filter)
-        .sort({ [sort]: order })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+      .sort({ [sort]: order })
+      .skip(skip)
+      .limit(limit)
+      .allowDiskUse(true)
+      .lean(),
       Product.countDocuments(filter),
     ]);
 
