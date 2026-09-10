@@ -7,7 +7,7 @@ import AdminSettingsLink from "@/components/admin/AdminSettingsLink";
 async function getProducts() {
   try {
     const baseUrl = process.env.SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/products?limit=100`, { cache: "no-store" });
+    const res = await fetch(`${baseUrl}/api/products?limit=200&fields=name,price,stock,category,featured,image,discount`, { cache: "no-store" });
     if (!res.ok) return { data: [], pagination: { total: 0 } };
     return res.json();
   } catch { return { data: [], pagination: { total: 0 } }; }
