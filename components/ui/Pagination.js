@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function Pagination({ currentPage, totalPages, searchParams }) {
+export default function Pagination({ currentPage, totalPages, searchParams, baseUrlPath = "/products" }) {
   const router = useRouter();
 
   if (totalPages <= 1) return null;
@@ -12,7 +12,7 @@ export default function Pagination({ currentPage, totalPages, searchParams }) {
       Object.entries(searchParams || {}).filter(([, v]) => v)
     );
     params.set("page", page);
-    router.push(`/products?${params.toString()}`);
+    router.push(`${baseUrlPath}?${params.toString()}`);
   };
 
   // Build page numbers with ellipsis

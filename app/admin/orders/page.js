@@ -1,25 +1,18 @@
 import AdminOrdersTable from "@/components/admin/AdminOrdersTable";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-
-async function getOrders() {
-  try {
-    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/orders?limit=50`, { cache: "no-store" });
-    if (!res.ok) return { data: [], pagination: { total: 0 } };
-    return res.json();
-  } catch { return { data: [], pagination: { total: 0 } }; }
-}
+import Pagination from "@/components/ui/Pagination";
+import { getOrdersData } from "@/lib/data";
 
 export const metadata = { title: "Orders | Admin" };
 
-export default async function AdminOrdersPage() {
-  const { data: orders, pagination } = await getOrders();
+export default async function AdminOrdersPage({ searchParams }) {
+  const page = parseInt(searchParams?.page || "1");
+  const { data: orders, pagination } = await getOrdersData({ page, limit: 50 });
 
   const pending   = orders.filter((o) => o.status === "Pending").length;
   const confirmed = orders.filter((o) => o.status === "Confirmed").length;
-  const delivered = orders.filter((o) => o.status === "Delivered").length;
-  const revenue   = orders.filter((o) => o.status !== "Cancelled").reduce((s, o) => s + o.total, 0);
+  const revenue   = orders.filter((o) => o.status !== "Cancelled").reduce((s, o) => s + (o.total || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 animate-fade-in">
@@ -47,10 +40,21 @@ export default async function AdminOrdersPage() {
       </div>
 
       <div className="admin-card overflow-hidden p-0">
-        <div className="px-6 py-4 border-b border-gray-100">
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h2 className="font-display font-bold text-lg uppercase tracking-wide text-brand-dark">All Orders</h2>
+          <span className="text-sm text-gray-400">({pagination?.total ?? orders.length} total)</span>
         </div>
         <AdminOrdersTable orders={orders} />
+        {pagination?.pages > 1 && (
+          <div className="p-4 border-t border-gray-100 flex justify-center">
+            <Pagination
+              currentPage={pagination.page}
+              totalPages={pagination.pages}
+              searchParams={searchParams}
+              baseUrlPath="/admin/orders"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

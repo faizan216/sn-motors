@@ -2,21 +2,12 @@ import ProductForm from "@/components/admin/ProductForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
-
-async function getProduct(id) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data;
-  } catch { return null; }
-}
+import { getProductByIdData } from "@/lib/data";
 
 export const metadata = { title: "Edit Product | Admin" };
 
 export default async function EditProductPage({ params }) {
-  const product = await getProduct(params.id);
+  const product = await getProductByIdData(params.id);
   if (!product) notFound();
 
   return (

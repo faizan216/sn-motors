@@ -2,38 +2,24 @@ import ProductCard from "@/components/product/ProductCard";
 import ProductFilters from "@/components/product/ProductFilters";
 import ProductsHeader from "@/components/product/ProductsHeader";
 import Pagination from "@/components/ui/Pagination";
+import { getProductsData } from "@/lib/data";
 
 export const metadata = {
   title: "All Products",
   description: "Browse our full catalogue of car parts and accessories.",
 };
 
-async function getProducts(searchParams) {
-  try {
-    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
-    const params = new URLSearchParams();
-
-    if (searchParams?.category)  params.set("category", searchParams.category);
-    if (searchParams?.search)    params.set("search",   searchParams.search);
-    if (searchParams?.sort)      params.set("sort",     searchParams.sort);
-    if (searchParams?.order)     params.set("order",    searchParams.order);
-    if (searchParams?.page)      params.set("page",     searchParams.page);
-    if (searchParams?.make)   params.set("make",  searchParams.make);
-    if (searchParams?.model)  params.set("model", searchParams.model);
-    params.set("limit", "12");
-
-    const res = await fetch(`${baseUrl}/api/products?${params.toString()}`, {
-      next: { revalidate: 30 },
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    return res.json();
-  } catch {
-    return { data: [], pagination: { page: 1, pages: 1, total: 0 } };
-  }
-}
-
 export default async function ProductsPage({ searchParams }) {
-  const { data: products, pagination } = await getProducts(searchParams);
+  const { data: products, pagination } = await getProductsData({
+    category: searchParams?.category,
+    search: searchParams?.search,
+    sort: searchParams?.sort || "createdAt",
+    order: searchParams?.order === "asc" ? 1 : -1,
+    page: searchParams?.page || 1,
+    make: searchParams?.make,
+    model: searchParams?.model,
+    limit: 12,
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 animate-fade-in">
@@ -65,6 +51,7 @@ export default async function ProductsPage({ searchParams }) {
                   currentPage={pagination?.page ?? 1}
                   totalPages={pagination?.pages ?? 1}
                   searchParams={searchParams}
+                  baseUrlPath="/products"
                 />
               </div>
             </>

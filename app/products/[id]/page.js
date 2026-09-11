@@ -4,32 +4,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Star, Package, Tag, ArrowLeft, CheckCircle } from "lucide-react";
 import AddToCartButton from "@/components/cart/AddToCartButton";
-
-async function getProduct(id) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/products/${id}`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data;
-  } catch {
-    return null;
-  }
-}
+import { getProductByIdData } from "@/lib/data";
 
 export async function generateMetadata({ params }) {
-  const product = await getProduct(params.id);
+  const product = await getProductByIdData(params.id);
   if (!product) return { title: "Product Not Found" };
   return {
     title: product.name,
-    description: product.description.slice(0, 160),
+    description: product.description ? product.description.slice(0, 160) : "",
   };
 }
 
 export default async function ProductDetailPage({ params }) {
-  const product = await getProduct(params.id);
+  const product = await getProductByIdData(params.id);
   if (!product) notFound();
 
   const inStock = product.stock > 0;
@@ -105,22 +92,22 @@ export default async function ProductDetailPage({ params }) {
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-6">
-  {product.discount > 0 ? (
-    <>
-      <span className="font-display text-4xl font-extrabold text-brand-blue">
-        Rs. {Math.round(product.price * (1 - product.discount / 100)).toLocaleString()}
-      </span>
-      <span className="text-gray-400 text-sm line-through">
-        Rs. {product.price.toLocaleString()}
-      </span>
-      <span className="badge bg-green-100 text-green-700">Save {product.discount}%</span>
-    </>
-  ) : (
-    <span className="font-display text-4xl font-extrabold text-brand-blue">
-      Rs. {product.price.toLocaleString()}
-    </span>
-  )}
-</div>
+            {product.discount > 0 ? (
+              <>
+                <span className="font-display text-4xl font-extrabold text-brand-blue">
+                  Rs. {Math.round(product.price * (1 - product.discount / 100)).toLocaleString()}
+                </span>
+                <span className="text-gray-400 text-sm line-through">
+                  Rs. {product.price.toLocaleString()}
+                </span>
+                <span className="badge bg-green-100 text-green-700">Save {product.discount}%</span>
+              </>
+            ) : (
+              <span className="font-display text-4xl font-extrabold text-brand-blue">
+                Rs. {product.price.toLocaleString()}
+              </span>
+            )}
+          </div>
 
           {/* Brand */}
           {product.brand && (
@@ -147,13 +134,13 @@ export default async function ProductDetailPage({ params }) {
 
           {/* Key features */}
           <ul className="space-y-2 mb-8">
-  {["Compatible with multiple models", "Easy installation", "Fast dispatch within 24 hours", "Nationwide delivery across Pakistan"].map((f) => (
-    <li key={f} className="flex items-center gap-2 text-sm text-gray-600">
-      <CheckCircle size={14} className="text-green-500 shrink-0" />
-      {f}
-    </li>
-  ))}
-</ul>
+            {["Compatible with multiple models", "Easy installation", "Fast dispatch within 24 hours", "Nationwide delivery across Pakistan"].map((f) => (
+              <li key={f} className="flex items-center gap-2 text-sm text-gray-600">
+                <CheckCircle size={14} className="text-green-500 shrink-0" />
+                {f}
+              </li>
+            ))}
+          </ul>
 
           {/* CTA */}
           <div className="flex gap-3 flex-wrap">
